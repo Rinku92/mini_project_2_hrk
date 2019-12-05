@@ -160,14 +160,14 @@ session.commit()
 # print customer attribute on the Order object
 #pprint(o1.customer)
 
-print("=========Customers=========")
+print("=========Customers/all()=========")
 #prints all the records of  the Customers table
 q = session.query(Customer).all()
 for c in q:
    print ("customer: ",c.id," ",c.first_name)
 print("===========================")
 
-print("=========Items=========")
+print("=========Items/all()=========")
 #prints all the records of  the Items table
 q = session.query(Item).all()
 for c in q:
@@ -175,7 +175,7 @@ for c in q:
 print("=========================")
 
 
-print("=========Orders=========")
+print("=========Orders/all()=========")
 #prints all the records of  the Orders table
 q = session.query(Order).all()
 for c in q:
@@ -185,4 +185,11 @@ print("=========================")
 print("=========SQL Query for Customer=========")
 #print SQL Query  for  customers
 print(session.query(Customer))
+print("===========================")
+
+print("=========count()=========")
+#print total number of records in each table
+print(session.query(Customer).count())
+print(session.query(Item).count())
+print(session.query(Order).count())
 print("===========================")
