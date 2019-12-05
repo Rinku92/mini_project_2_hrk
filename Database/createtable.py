@@ -1,8 +1,9 @@
 from operator import or_, and_, not_
 from pprint import pprint
-
+from typing import cast
+from sqlalchemy import cast, Date, distinct, union
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
-    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc, func, distinct
+    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc, func, distinct, Date
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session, sessionmaker
@@ -353,3 +354,12 @@ print(q)
 print("===========================")
 q=session.query(func.count(distinct(Customer.town)),func.count(Customer.town)).all()
 print(q)
+
+print("=======UNIONS=============")
+#TO union queries we use the union() method of the Query object.
+s1 = session.query(Item.id, Item.name).filter(Item.name.like("Wa%"))
+s2 = session.query(Item.id, Item.name).filter(Item.name.like("%e%"))
+print(s1.union(s2).all())
+
+#By default, union() removes all the duplicate rows from the result set. If you want to keep the duplicates use union_all().
+print(s1.union_all(s2).all())
