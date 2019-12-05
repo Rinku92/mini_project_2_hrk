@@ -4,7 +4,7 @@ from typing import cast
 from sqlalchemy import cast, Date, distinct, union
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
     Column, DateTime, ForeignKey, Numeric, SmallInteger, desc, func, distinct, Date
-
+from sqlalchemy import text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session, sessionmaker
 
@@ -385,3 +385,17 @@ q=session.query(Item).filter(
 ).delete(synchronize_session='fetch')
 print(q)
 session.commit()
+
+
+print("===Raw Queries==")
+q=session.query(Customer).filter(text("first_name = 'John'")).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+   print("===========================")
+q=session.query(Customer).filter(text("town like 'Nor%'")).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+   print("===========================")
+q=session.query(Customer).filter(text("town like 'Nor%'")).order_by(text("first_name, id desc")).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
