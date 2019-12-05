@@ -1,3 +1,4 @@
+from operator import or_, and_, not_
 from pprint import pprint
 
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
@@ -210,5 +211,32 @@ q = session.query(Customer).get(1)
 print ("customer: ",q.id," ",q.first_name)
 q = session.query(Item).get(1)
 print ("Items: ",q.id," ",q.name)
-pprint(session.query(Order).get(200))
+print(session.query(Order).get(200))
 print("===========================")
+
+print("=========filter()=========")
+q = session.query(Customer).filter(Customer.first_name == 'John').all()
+# All customers with name starting with John
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+print("===========================")
+
+q = session.query(Customer).filter(Customer.id <= 5, Customer.town.like("Nor%")).all()
+#This query returns all the customers whose primary key is less than or equal to 5 and town name starts with Nor
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+
+print("=======find all customers who either live in Peterbrugh or Norfolk====================")
+q=session.query(Customer).filter(or_(Customer.town == 'Peterbrugh', Customer.town == 'Norfolk')).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+
+print("=======find all customers whose first name is John and live in Norfolk===================")
+q=session.query(Customer).filter(and_(Customer.first_name == 'John', Customer.town == 'Norfolk')).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+
+print("=======find all johns who don't live in Peterbrugh================")
+q=session.query(Customer).filter(and_(Customer.first_name == 'John', not_(Customer.town == 'Peterbrugh', ))).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
