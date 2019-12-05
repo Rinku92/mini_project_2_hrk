@@ -281,3 +281,15 @@ print("============ NOT LIKE ==============")
 q = session.query(Item).filter(Item.name.ilike("w%")).all()
 for c in q:
    print ("Items: ",c.id," ",c.name)
+
+print("===========limit() ==============")
+#The limit() method adds LIMIT clause to the query. It accepts the number of rows you want to return from the query.
+q= session.query(Customer).limit(2).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+print("===========================")
+q=session.query(Customer).filter(Customer.address.ilike("%avenue")).limit(2).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+
+
