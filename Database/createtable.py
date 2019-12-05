@@ -292,4 +292,10 @@ q=session.query(Customer).filter(Customer.address.ilike("%avenue")).limit(2).all
 for c in q:
    print ("customer: ",c.id," ",c.first_name)
 
-
+print("===========offset()==============")
+q = session.query(Customer).limit(2).offset(2).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+print("============SQL equivalent Query===============")
+print(session.query(Customer).limit(2).offset(2))
+print("===========================")
