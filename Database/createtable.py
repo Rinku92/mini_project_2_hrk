@@ -336,4 +336,8 @@ print(session.query(func.count(Customer.id)).join(Order).filter(
     Customer.last_name == 'Green',
 ).group_by(Customer.id).scalar())
 
-
+print("===========Having()==============")
+#To filter out the results based on the values returned by aggregate functions we use having() method which adds the HAVING clause to the SELECT statement. Just like the where() clause, it accepts a condition.
+print("=======find the number of customers lives in each town===========")
+q =session.query(func.count("*").label('town_count'), Customer.town).group_by(Customer.town).having(func.count("*") > 2).all()
+print(q)
