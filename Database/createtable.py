@@ -363,3 +363,17 @@ print(s1.union(s2).all())
 
 #By default, union() removes all the duplicate rows from the result set. If you want to keep the duplicates use union_all().
 print(s1.union_all(s2).all())
+
+print("====Updating Data======")
+#To update an object simply set its attribute to a new value, add the object to the session and commit the changes.
+i = session.query(Item).get(8)
+i.selling_price = 25.91
+session.add(i)
+session.commit()
+
+#To update multiple rows at once use update() method of the Query object. It returns the total number of records updated.
+print("===update quantity of all quantity of items to 60 whose name starts with 'W'===")
+session.query(Item).filter(
+    Item.name.ilike("W%")
+).update({"quantity": 60}, synchronize_session='fetch')
+session.commit()
