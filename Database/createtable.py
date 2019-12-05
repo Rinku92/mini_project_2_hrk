@@ -7,7 +7,8 @@ from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
 from sqlalchemy import text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session, sessionmaker
-
+from sqlalchemy import update
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 
 engine = create_engine("sqlite:////web/Sqlite-Data/example.db")
@@ -388,6 +389,7 @@ session.commit()
 
 
 print("===Raw Queries==")
+# ORM also give you the flexibility to directly to use directly use SQL using the text() function
 q=session.query(Customer).filter(text("first_name = 'John'")).all()
 for c in q:
    print ("customer: ",c.id," ",c.first_name)
@@ -399,3 +401,31 @@ for c in q:
 q=session.query(Customer).filter(text("town like 'Nor%'")).order_by(text("first_name, id desc")).all()
 for c in q:
    print ("customer: ",c.id," ",c.first_name)
+
+print("========Transactions============")
+
+def dispatch_order(order_id):
+    # check whether order_id is valid or not
+    order = session.query(Order).get(order_id)
+
+    if not order:
+        raise ValueError("Invalid order id: {}.".format(order_id))
+
+    if order.date_shipped:
+        print("Order already shipped.")
+        return
+
+    try:
+        for i in order.order_lines:
+            i.item.quantity = i.item.quantity - i.quantity
+
+        order.date_shipped = datetime.now()
+        session.commit()
+        print("Transaction completed.")
+
+    except IntegrityError as e:
+        print(e)
+        print("Rolling back ...")
+        session.rollback()
+        print("Transaction failed.")
+        dispatch_order(1)
