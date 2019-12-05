@@ -2,7 +2,7 @@ from operator import or_, and_, not_
 from pprint import pprint
 
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
-    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc
+    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc, func
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session, sessionmaker
@@ -327,3 +327,13 @@ q= session.query(Customer.first_name,Order.id,).outerjoin(Order).all()
 for c in q:
    print ("customer: ",c.first_name," ",c.id)
 print("===========================")
+
+
+print("=========group_by()===========")
+#To We group results using the group_by() method. It accepts one or more columns and groups the rows according to the values in the column.
+print(session.query(func.count(Customer.id)).join(Order).filter(
+    Customer.first_name == 'John',
+    Customer.last_name == 'Green',
+).group_by(Customer.id).scalar())
+
+
