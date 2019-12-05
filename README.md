@@ -1,4 +1,4 @@
-# mini_project_2_hrk (SQLAlchemy)
+# mini_project_SQLAlchemy
 
 [![Build Status](https://travis-ci.org/kaustavbhattacharjee/mini_project_2_hrk.svg?branch=master)](https://travis-ci.org/kaustavbhattacharjee/mini_project_2_hrk)
 
