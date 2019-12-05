@@ -2,7 +2,7 @@ from operator import or_, and_, not_
 from pprint import pprint
 
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
-    Column, DateTime, ForeignKey, Numeric, SmallInteger
+    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session, sessionmaker
@@ -293,9 +293,24 @@ for c in q:
    print ("customer: ",c.id," ",c.first_name)
 
 print("===========offset()==============")
+#The offset() method adds the OFFSET clause to the query. It accepts offset as an argument. It is commonly used with the limit() clause.
 q = session.query(Customer).limit(2).offset(2).all()
 for c in q:
    print ("customer: ",c.id," ",c.first_name)
 print("============SQL equivalent Query===============")
 print(session.query(Customer).limit(2).offset(2))
 print("===========================")
+
+print("===========Order_by()==============")
+#The order_by() method is used to order the result by adding ORDER BY clause to the query. It accepts column names on which the order should be based. By default, it sorts in ascending order.
+q = session.query(Item).filter(Item.name.ilike("wa%")).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
+print("===========================")
+q= session.query(Item).filter(Item.name.ilike("wa%")).order_by(Item.cost_price).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
+print("=============desc() ==============")
+q=session.query(Item).filter(Item.name.ilike("wa%")).order_by(desc(Item.cost_price)).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
