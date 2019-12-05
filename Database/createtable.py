@@ -322,3 +322,8 @@ for c in q:
    print ("customer: ",c.id," ",c.first_name)
 print("===========================")
 
+print("===========OUTER JOIN()==============")
+q= session.query(Customer.first_name,Order.id,).outerjoin(Order).all()
+for c in q:
+   print ("customer: ",c.first_name," ",c.id)
+print("===========================")
