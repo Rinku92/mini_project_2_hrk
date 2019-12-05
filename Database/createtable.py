@@ -193,3 +193,15 @@ print(session.query(Customer).count())
 print(session.query(Item).count())
 print(session.query(Order).count())
 print("===========================")
+
+print("=========first()=========")
+#The first() method returns the first result of the query or None if the query returns zero results.
+q = session.query(Customer).first()
+print ("customer: ",q.id," ",q.first_name)
+
+q = session.query(Item).first()
+print ("Items: ",q.id," ",q.name)
+
+q = session.query(Order).first()
+print("Order: ", q.id)
+print("===========================")
