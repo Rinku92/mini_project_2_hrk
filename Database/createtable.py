@@ -314,3 +314,11 @@ print("=============desc() ==============")
 q=session.query(Item).filter(Item.name.ilike("wa%")).order_by(desc(Item.cost_price)).all()
 for c in q:
    print ("Items: ",c.id," ",c.name)
+
+print("===========JOIN()==============")
+#The join() method is used to create SQL INNER JOIN. It accepts table name for which you want to create SQL JOIN.
+q = session.query(Customer).join(Order).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+print("===========================")
+
