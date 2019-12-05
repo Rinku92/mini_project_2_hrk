@@ -2,12 +2,13 @@ from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
     Column, DateTime, ForeignKey, Numeric, SmallInteger
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session, sessionmaker
 
 from datetime import datetime
+
 engine = create_engine("sqlite:////web/Sqlite-Data/example.db")
 Base = declarative_base()
-
+session = Session(bind=engine)
 
 class Customer(Base):
     __tablename__ = 'customers'
@@ -51,3 +52,28 @@ class OrderLine(Base):
 
 
 Base.metadata.create_all(engine)
+
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+# Insert customer in customer table
+c1 = Customer(first_name='Toby',
+              last_name='Miller',
+              username='tmiller',
+              email='tmiller@example.com',
+              address = '1662 Kinney Street',
+              town = 'Wolfden'
+              )
+
+c2 = Customer(first_name='Scott',
+              last_name='Harvey',
+              username='scottharvey',
+              email='scottharvey@example.com',
+              address = '424 Patterson Street',
+              town = 'Beckinsdale'
+              )
+
+session.add(c1)
+session.add(c2)
+session.commit()
