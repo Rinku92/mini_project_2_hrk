@@ -51,7 +51,7 @@ class OrderLine(Base):
     order_id = Column(Integer(), ForeignKey('orders.id'))
     item_id = Column(Integer(), ForeignKey('items.id'))
     quantity = Column(SmallInteger())
-    #item = relationship("Item")
+
 
 
 Base.metadata.create_all(engine)
@@ -240,3 +240,44 @@ print("=======find all johns who don't live in Peterbrugh================")
 q=session.query(Customer).filter(and_(Customer.first_name == 'John', not_(Customer.town == 'Peterbrugh', ))).all()
 for c in q:
    print ("customer: ",c.id," ",c.first_name)
+print("===========================")
+
+print("=============IS NULL==============")
+q = session.query(Order).filter(Order.date_placed == None).all()
+for c in q:
+      print("ID: ", c.id)
+
+print("=============IS NOT NULL==============")
+q = session.query(Order).filter(Order.date_placed != None).all()
+for c in q:
+      print("ID: ", c.id)
+
+print("=============IN==============")
+q = session.query(Customer).filter(Customer.first_name.in_(['Toby', 'Sarah'])).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+
+print("============NOT IN==============")
+q = session.query(Customer).filter(Customer.first_name.notin_(['Toby', 'Sarah'])).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+
+print("============BETWEEN==============")
+q= session.query(Item).filter(Item.cost_price.between(10, 50)).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
+
+print("============NOT BETWEEN==============")
+q = session.query(Item).filter(Item.cost_price.between(10, 50)).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
+
+print("============ LIKE ==============")
+q = session.query(Item).filter(Item.name.like("%r")).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
+
+print("============ NOT LIKE ==============")
+q = session.query(Item).filter(Item.name.ilike("w%")).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
