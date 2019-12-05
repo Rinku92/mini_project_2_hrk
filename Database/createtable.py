@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
     Column, DateTime, ForeignKey, Numeric, SmallInteger
 
@@ -128,6 +130,8 @@ i8 = Item(name='Water Bottle', cost_price=20.89, selling_price=25, quantity=50)
 session.add_all([i1, i2, i3, i4, i5, i6, i7, i8])
 session.commit()
 
+#Insert Oders in Orders Table
+
 o1 = Order(customer = c1)
 o2 = Order(customer = c1)
 
@@ -140,3 +144,17 @@ session.add_all([o1, o2])
 
 session.new
 session.commit()
+
+o3 = Order(customer=c1)
+orderline1 = OrderLine(item=i1, quantity=5)
+orderline2 = OrderLine(item=i2, quantity=10)
+
+#o3.order_lines.append(orderline1)
+#o3.order_lines.append(orderline2)
+
+session.add_all([o3])
+
+session.commit()
+
+#pprint(c1.orders)
+#pprint(o1.customer)
