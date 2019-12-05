@@ -2,7 +2,7 @@ from operator import or_, and_, not_
 from pprint import pprint
 
 from sqlalchemy import create_engine, MetaData, Table, Integer, String, \
-    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc, func
+    Column, DateTime, ForeignKey, Numeric, SmallInteger, desc, func, distinct
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, Session, sessionmaker
@@ -340,4 +340,16 @@ print("===========Having()==============")
 #To filter out the results based on the values returned by aggregate functions we use having() method which adds the HAVING clause to the SELECT statement. Just like the where() clause, it accepts a condition.
 print("=======find the number of customers lives in each town===========")
 q =session.query(func.count("*").label('town_count'), Customer.town).group_by(Customer.town).having(func.count("*") > 2).all()
+print(q)
+
+
+print("========Dealing with Duplicates======")
+#To deal with the duplicate rows in the result set we use the DISTINCT option. We can add DISTINCT option to the SELECT statement using the distinct() method.
+q=  session.query(Customer.town).filter(Customer.id  < 10).all()
+print(q)
+print("===========================")
+q= session.query(Customer.town).filter(Customer.id  < 10).distinct().all()
+print(q)
+print("===========================")
+q=session.query(func.count(distinct(Customer.town)),func.count(Customer.town)).all()
 print(q)
