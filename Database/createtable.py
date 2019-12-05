@@ -181,3 +181,8 @@ q = session.query(Order).all()
 for c in q:
    print ("Order: ",c.id)
 print("=========================")
+
+print("=========SQL Query for Customer=========")
+#print SQL Query  for  customers
+print(session.query(Customer))
+print("===========================")
