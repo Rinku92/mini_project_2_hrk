@@ -1,6 +1,7 @@
-FROM python:3.7
+FROM python:3.6
 
-ADD . .
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-CMD ["python", "-m", "unittest", "discover", "-s", "Tests"]
+COPY . /web
+WORKDIR /web
+RUN pip install -r ./requirements.txt
+ENTRYPOINT ["python"]
+CMD ["/web/Database/createtable.py"]
