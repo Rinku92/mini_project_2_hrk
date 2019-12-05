@@ -167,3 +167,17 @@ for c in q:
    print ("customer: ",c.id," ",c.first_name)
 print("===========================")
 
+print("=========Items=========")
+#prints all the records of  the Items table
+q = session.query(Item).all()
+for c in q:
+   print ("Items: ",c.id," ",c.name)
+print("=========================")
+
+
+print("=========Orders=========")
+#prints all the records of  the Orders table
+q = session.query(Order).all()
+for c in q:
+   print ("Order: ",c.id)
+print("=========================")
