@@ -11,7 +11,8 @@ def read_answer(file_name):
     for row in csv_reader:
         test_row_list.append(row)
     f.close()
-    answer=0
+    answer = 0
     for row in test_row_list:
-        answer=round(float(row[0]),2)
+        answer = round(float(row[0]), 2)
+
     return answer
