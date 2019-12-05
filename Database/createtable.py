@@ -377,3 +377,11 @@ session.query(Item).filter(
     Item.name.ilike("W%")
 ).update({"quantity": 60}, synchronize_session='fetch')
 session.commit()
+
+print("====Deleting Data===")
+#To delete an object use the delete() method of the session object. It accepts an object and marks it to be deleted in the next commit.
+q=session.query(Item).filter(
+    Item.name.ilike("W%")
+).delete(synchronize_session='fetch')
+print(q)
+session.commit()
