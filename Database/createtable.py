@@ -155,6 +155,15 @@ orderline2 = OrderLine(item=i2, quantity=10)
 session.add_all([o3])
 
 session.commit()
-
+# print orders attribute of the Customer object
 #pprint(c1.orders)
+# print customer attribute on the Order object
 #pprint(o1.customer)
+
+print("=========Customers=========")
+#prints all the records of  the Customers table
+q = session.query(Customer).all()
+for c in q:
+   print ("customer: ",c.id," ",c.first_name)
+print("===========================")
+
